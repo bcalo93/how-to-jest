@@ -14,7 +14,7 @@ export default {
   // cacheDirectory: "/private/var/folders/ml/4y3mcsvx6ljddvkvr9lzvr4wkclrfj/T/jest_a7gyj5",
 
   // Automatically clear mock calls, instances, contexts and results before every test
-  clearMocks: true,
+  clearMocks: false,
 
   // Indicates whether the coverage information should be collected while executing the test
   collectCoverage: true,
