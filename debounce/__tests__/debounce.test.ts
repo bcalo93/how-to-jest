@@ -15,14 +15,14 @@ describe('debounce', () => {
     jest.runAllTimers();
   });
 
-  it('should run debounced function once timer is finished', () => {
+  it('shouldn\'t run debounced function if timer isn\'t finished', () => {
     const debounceFunc = debounce(callbackMock);
     debounceFunc();
     jest.advanceTimersByTime(DEFAULT_TIMEOUT - 1);
     expect(callbackMock).not.toBeCalled();
   });
 
-  it('shouldn\'t run debounced function if timer isn\'t finished', () => {
+  it('should run debounced function once timer is finished', () => {
     const debounceFunc = debounce(callbackMock);
     debounceFunc();
     jest.advanceTimersByTime(DEFAULT_TIMEOUT);
