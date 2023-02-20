@@ -12,6 +12,12 @@ export default class AsyncCalculator {
   }
 
   divide(a: number, b: number): Promise<number> {
-    return new Promise(resolve => resolve(a / b));
+    return new Promise((resolve, reject) => {
+      if (b === 0) {
+        reject(new Error('b cannot be 0'));
+        return;
+      }
+      resolve(a / b)
+    });
   }
 }

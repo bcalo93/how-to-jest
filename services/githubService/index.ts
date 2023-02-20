@@ -47,11 +47,19 @@ export class ApiError extends Error {
 }
 
 export const fetchGithubUser = async (username: string): Promise<GithubUser> => {
-  const response = await fetch(`${GITHUB_BASE_URL}/${username}`);
-  const body = await response.json();
-  if (!response.ok) {
-    throw new ApiError(body.message, response.status);
-  }
+  try {
+    const response = await fetch(`${GITHUB_BASE_URL}/${username}`);
+    const body = await response.json();
+    if (!response.ok) {
+      throw new ApiError(body.message, response.status);
+    }
 
-  return body;
+    return body;
+  } catch(error) {
+    if (error instanceof ApiError) {
+      throw error;
+    }
+
+    throw new ApiError(error.message);
+  }
 }
