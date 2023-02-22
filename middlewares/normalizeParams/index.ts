@@ -17,9 +17,23 @@ export enum ParamsType {
   DATE
 }
 
+const paramsTypeHandler: Record<ParamsType, (value: string) => number | boolean | Date | string> = {
+  [ParamsType.STRING]: (value: string) => value,
+  [ParamsType.NUMBER]: (value: string) => +value || 0,
+  [ParamsType.BOOLEAN]: (value: string) => value.toLowerCase() == 'true',
+  [ParamsType.DATE]: (value: string) => new Date(value)
+}
+
 export function normalizeQueryParams(paramsConversion: Record<string, ParamsType>): RequestHandler {
   return (req: Request, res: Response, next: NextFunction) => {
+    const normalizedParams = Object
+      .keys(req.query)
+      .reduce((accumulator, currentKey) => {
+        const handler = paramsTypeHandler[paramsConversion[currentKey] || ParamsType.STRING];
+        return { ...accumulator, [currentKey]: handler(req.query[currentKey]) };
+      }, {});
 
+    res.locals = { ...res.locals, ...normalizedParams };
     next();
   }
 }

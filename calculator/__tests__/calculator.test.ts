@@ -33,5 +33,9 @@ describe('Calculator', () => {
       const result = calculator.divide(10, 5);
       expect(result).toBe(2);
     });
+
+    it('should throw an error if b is 0', () => {
+      expect(() => calculator.divide(10, 0)).toThrowError('b cannot be 0');
+    });
   });
 });
